@@ -563,4 +563,23 @@ sh_test(
     ],
 )
 
+java_fuzz_target_test(
+    name = "StructuredMutatorMazeFuzzer",
+    srcs = [
+        "src/test/java/com/example/StructuredMutatorMazeFuzzer.java",
+    ],
+    allowed_findings = ["com.example.StructuredMutatorMazeFuzzer$$TreasureFoundException"],
+    fuzzer_args = [
+        "--experimental_mutator",
+        "--experimental_cross_over_frequency=1",
+        "-use_value_profile=1",
+        #        "-runs=200000",
+    ],
+    target_class = "com.example.StructuredMutatorMazeFuzzer",
+    deps = [
+        "//deploy:jazzer-junit",
+        "//src/main/java/com/code_intelligence/jazzer/mutation/annotation",
+    ],
+)
+
 ktlint()
